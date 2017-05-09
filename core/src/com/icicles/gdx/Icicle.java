@@ -17,10 +17,8 @@ public class Icicle {
     }
 
     public void update(float delta) {
-        // TODO: Update velocity using icicle accelration constant
-        velocity.mulAdd(Constant.ICICLES_ACCELERATION, delta);
 
-        // TODO: Update position using velocity
+        velocity.mulAdd(Constant.ICICLES_ACCELERATION, delta);
         position.mulAdd(velocity, delta);
     }
     public void render(ShapeRenderer renderer){
