@@ -16,27 +16,22 @@ public class IcilesScreen implements Screen{
     public static final String TAG = IcilesScreen.class.getName();
 
     ExtendViewport iciclesViewport;
+
     ShapeRenderer renderer;
 
     Player player;
     Icicles icicles;
-    // TODO: Add SpriteBatch
     SpriteBatch batch;
-
-    // TODO: Add BitmapFont
     BitmapFont font;
-    int topScore;
+    int topScore=0;
 
     @Override
     public void show() {
         iciclesViewport = new ExtendViewport(Constant.WORLD_SIZE, Constant.WORLD_SIZE);
-
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
-
         player = new Player(iciclesViewport);
         icicles = new Icicles(iciclesViewport);
-
     }
 
     @Override

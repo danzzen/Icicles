@@ -7,11 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-
-/**
- * Created by lenovo on 12-04-2017.
- */
-
 public class Player {
     Vector2 position;
     public static final float PLAYER_HEIGHT_RATIO=0.02f;
