@@ -19,6 +19,11 @@ public class Icicle {
     public void update(float delta) {
 
         velocity.mulAdd(Constant.ICICLES_ACCELERATION, delta);
+//        public Vector2 mulAdd (Vector2 vec, float scalar) {
+//            this.x += vec.x * scalar;
+//            this.y += vec.y * scalar;
+//            return this;
+//        }
         position.mulAdd(velocity, delta);
     }
     public void render(ShapeRenderer renderer){

@@ -8,19 +8,25 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Player {
+    //we create vector to store x and y coordinates of objects
     Vector2 position;
+    //some constants
     public static final float PLAYER_HEIGHT_RATIO=0.02f;
     public static final float PLAYER_HEAD_RADIUS=0.001f;
+    //When dealing with different screens it is often necessary to decide for a certain strategy how those different screen sizes and aspect
+    // ratios should be handled. Camera and Stage support different viewport strategies, for example when doing picking via
+    // Camera.project(vec, viewportX, viewportY, viewportWidth, viewportHeight).
     Viewport viewport;
     public Player(Viewport viewport)
     {
-        this.viewport=viewport;
+        this.viewport=viewport;//assigned it the view port
         init();
     }
     public void init(){
-        position= new Vector2(viewport.getWorldHeight(), Constant.PLAYER_HEAD_HEIGHT);
+        position= new Vector2(viewport.getWorldHeight(), Constant.PLAYER_HEAD_HEIGHT);//giving the initial position
     }
-    public void update(float delta){
+    public void update(float delta)//delta is time difference between last frame and current frame
+    {
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
             position.x-=delta*Constant.PLAYER_MOVEMENT;
