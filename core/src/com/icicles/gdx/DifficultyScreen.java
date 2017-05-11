@@ -36,28 +36,23 @@ public class DifficultyScreen extends InputAdapter implements Screen {
         renderer = new ShapeRenderer();
         batch = new SpriteBatch();
 
-        // TODO: Initialize a FitViewport with the difficulty world size constant
+
         viewport = new FitViewport(Constant.DIFFICULTY_WORLD_SIZE, Constant.DIFFICULTY_WORLD_SIZE);
         Gdx.input.setInputProcessor(this);
 
         font = new BitmapFont();
-        // TODO: Set the font scale using the constant we defined
         font.getData().setScale(Constant.DIFFICULTY_LABEL_SCALE);
         font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
     }
 
     @Override
     public void render(float delta) {
-        // TODO: Apply the viewport
+
         viewport.apply();
         Gdx.gl.glClearColor(Constant.BACKGROUND_COLOR.r, Constant.BACKGROUND_COLOR.g, Constant.BACKGROUND_COLOR.b, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // TODO: Set the ShapeRenderer's projection matrix
         renderer.setProjectionMatrix(viewport.getCamera().combined);
 
-
-        // TODO: Use ShapeRenderer to draw the buttons
         renderer.begin(ShapeType.Filled);
 
         renderer.setColor(Constant.EASY_COLOR);
@@ -70,12 +65,9 @@ public class DifficultyScreen extends InputAdapter implements Screen {
         renderer.circle(Constant.HARD_CENTER.x, Constant.HARD_CENTER.y, Constant.DIFFICULTY_BUBBLE_RADIUS);
 
         renderer.end();
-
-
-        // TODO: Set the SpriteBatche's projection matrix
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
-        // TODO: Use SpriteBatch to draw the labels on the buttons
+
         // HINT: Use GlyphLayout to get vertical centering
         batch.begin();
 
@@ -93,7 +85,7 @@ public class DifficultyScreen extends InputAdapter implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        // TODO: Update the viewport
+
         viewport.update(width, height, true);
     }
 
@@ -122,10 +114,9 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        // TODO: Unproject the touch from the screen to the world
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
 
-        // TODO: Check if the touch was inside a button, and launch the icicles screen with the appropriate difficulty
+
 
         if (worldTouch.dst(Constant.EASY_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.EASY);
