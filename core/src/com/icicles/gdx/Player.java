@@ -11,6 +11,7 @@ public class Player {
     //we create vector to store x and y coordinates of objects
     Vector2 position;
     //some constants
+    public int death=0;
     public static final float PLAYER_HEIGHT_RATIO=0.02f;
     public static final float PLAYER_HEAD_RADIUS=0.001f;
     //When dealing with different screens it is often necessary to decide for a certain strategy how those different screen sizes and aspect
@@ -49,9 +50,10 @@ public class Player {
     public boolean hitByIcicle(Icicles icicles){
         boolean isHi=false;
         for(Icicle icicle:icicles.list){
-            if(icicle.position.dst(position)<Constant.PLAYER_HEAD_RADIUS)
-                isHi=true;
-
+            if(icicle.position.dst(position)<Constant.PLAYER_HEAD_RADIUS) {
+                isHi = true;
+                death++;
+            }
         }
         return  isHi;
     }

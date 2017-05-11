@@ -1,5 +1,6 @@
 package com.icicles.gdx;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -9,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.sun.xml.internal.bind.CycleRecoverable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 
 import jdk.nashorn.internal.runtime.Context;
 
@@ -21,12 +24,13 @@ public class IcilesScreen implements Screen{
     ShapeRenderer renderer;
     Player player;
     Icicles icicles;
+    Constant.Difficulty difficulty;
     SpriteBatch batch;
     BitmapFont font;
     int topScore=0;
-    public static final String fps="192.168.43.229";
     Preferences prefs;
-    public IcilesScreen(Context context, DifficultyScreen d){
+    ScreenViewport hudViewport;
+    public IcilesScreen(IciclesGame game, Constant.Difficulty d){
 
     }
     @Override
@@ -34,6 +38,7 @@ public class IcilesScreen implements Screen{
         iciclesViewport = new ExtendViewport(Constant.WORLD_SIZE, Constant.WORLD_SIZE);
         renderer = new ShapeRenderer();//inilize the shape renderer
         renderer.setAutoShapeType(true);
+        hudViewport=new ScreenViewport();
         player = new Player(iciclesViewport);//creating innstance of player class
         icicles = new Icicles(iciclesViewport);//creating innstance of Icicles class
         batch=new SpriteBatch();
@@ -88,12 +93,15 @@ public class IcilesScreen implements Screen{
         batch.begin();
         batch.setColor(Color.BLACK);
 
-        font.draw(batch,Integer.toString(icicles.count),10,iciclesViewport.getWorldHeight());
-        font.draw(batch,Integer.toString(icicles.c),50,iciclesViewport.getWorldHeight());
+        //font.draw(batch,Integer.toString(icicles.count),10,iciclesViewport.getWorldHeight());
         topScore=Math.max(topScore,icicles.count);
         prefs.putInteger("int", topScore);
         prefs.flush();
-        font.draw(batch,Integer.toString(topScore),100,iciclesViewport.getWorldHeight());
+        font.draw(batch, "Deaths: " + player.death + "\nDifficulty: " +difficulty.label,
+                Constant.HUD_MARGIN, hudViewport.getWorldHeight() - Constant.HUD_MARGIN);
+        font.draw(batch, "Score: " + icicles.count+ "\nTop Score: " + topScore,
+                hudViewport.getWorldWidth() - Constant.HUD_MARGIN, hudViewport.getWorldHeight() - Constant.HUD_MARGIN,
+                0, Align.right, false);
 
         batch.end();
         renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);

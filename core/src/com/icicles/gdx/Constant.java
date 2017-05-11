@@ -29,7 +29,8 @@ public class Constant {
     public static final Color EASY_COLOR = new Color(0.2f, 0.2f, 1, 1);
     public static final Color MEDIUM_COLOR = new Color(0.5f, 0.5f, 1, 1);
     public static final Color HARD_COLOR = new Color(0.7f, 0.7f, 1, 1);
-
+    public static final float HUD_FONT_REFERENCE_SCREEN_SIZE = 480.0f;
+    public static final float HUD_MARGIN = 20.0f;
     public static final float DIFFICULTY_WORLD_SIZE = 480.0f;
 
     public static final float DIFFICULTY_BUBBLE_RADIUS = DIFFICULTY_WORLD_SIZE / 9;

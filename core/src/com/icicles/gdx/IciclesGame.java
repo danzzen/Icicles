@@ -21,6 +21,6 @@ public class IciclesGame extends Game {
 	}
 	public void showIciclesScreen(Constant.Difficulty di)
 	{
-		setScreen(new IcilesScreen());
+		setScreen(new IcilesScreen(this,di));
 	}
 }
