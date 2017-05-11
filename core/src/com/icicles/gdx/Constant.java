@@ -2,11 +2,6 @@ package com.icicles.gdx;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-
-/**
- * Created by lenovo on 12-04-2017.
- */
-
 public class Constant {
     public static final float WORLD_SIZE = 10.0f;
     public static final float PLAYER_HEAD_RADIUS = 0.5f;

@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.sun.xml.internal.bind.CycleRecoverable;
+
+import jdk.nashorn.internal.runtime.Context;
 
 public class IcilesScreen implements Screen{
     //implementing screen so we will implement all the meethods
@@ -23,6 +26,9 @@ public class IcilesScreen implements Screen{
     int topScore=0;
     public static final String fps="192.168.43.229";
     Preferences prefs;
+    public IcilesScreen(Context context, DifficultyScreen d){
+
+    }
     @Override
     public void show() {
         iciclesViewport = new ExtendViewport(Constant.WORLD_SIZE, Constant.WORLD_SIZE);

@@ -13,6 +13,14 @@ public class IciclesGame extends Game {
 
 	@Override
 	public void create() {
+		showDifficultyScreen();
+	}
+
+	private void showDifficultyScreen() {
+		setScreen(new DifficultyScreen(this));
+	}
+	public void showIciclesScreen(Constant.Difficulty di)
+	{
 		setScreen(new IcilesScreen());
 	}
 }
