@@ -8,16 +8,18 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Icicles {
     DelayedRemovalArray<Icicle> list;
     Viewport viewport;
+    Constant.Difficulty difficulty;
     public int count=0,c=0;
-    public Icicles(Viewport viewport){
+    public Icicles(Constant.Difficulty difficulty,Viewport viewport){
         this.viewport=viewport;
+        this.difficulty=difficulty;
         init();
     }
     public void init(){
         list=new DelayedRemovalArray<Icicle>(100);
     }
     public void update(float delta){
-        if(MathUtils.random()<delta*Constant.ICICLE_SPAWNS_PER_SECOND) {
+        if(MathUtils.random()<delta*difficulty.spawnRate) {
             Vector2 newIciclepos = new Vector2(MathUtils.random() * viewport.getWorldWidth(), viewport.getWorldHeight());
 
             Icicle icicle = new Icicle(newIciclepos);

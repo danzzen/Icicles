@@ -27,11 +27,13 @@ public class IcilesScreen implements Screen{
     Constant.Difficulty difficulty;
     SpriteBatch batch;
     BitmapFont font;
+    IciclesGame game;
     int topScore=0;
     Preferences prefs;
     ScreenViewport hudViewport;
     public IcilesScreen(IciclesGame game, Constant.Difficulty d){
-
+        this.game = game;
+        this.difficulty =d;
     }
     @Override
     public void show() {
@@ -40,7 +42,7 @@ public class IcilesScreen implements Screen{
         renderer.setAutoShapeType(true);
         hudViewport=new ScreenViewport();
         player = new Player(iciclesViewport);//creating innstance of player class
-        icicles = new Icicles(iciclesViewport);//creating innstance of Icicles class
+        icicles = new Icicles(difficulty,iciclesViewport);//creating innstance of Icicles class
         batch=new SpriteBatch();
         font=new BitmapFont();
 
