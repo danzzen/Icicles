@@ -59,6 +59,7 @@ public class Player {
     }
     public void render(ShapeRenderer renderer){
         renderer.setColor(Color.BLACK);
+
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.circle(position.x,position.y,Constant.PLAYER_HEAD_RADIUS);
         Vector2 BarTop=new Vector2(position.x,position.y-Constant.PLAYER_HEAD_RADIUS);
