@@ -1,11 +1,8 @@
 package com.icicles.gdx;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by lenovo on 12-04-2017.
- */
+import com.badlogic.gdx.math.Vector2;
 
 public class Icicle {
     public static final String TAG = Icicle.class.getName();
