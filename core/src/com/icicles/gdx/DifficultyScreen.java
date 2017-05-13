@@ -2,6 +2,7 @@ package com.icicles.gdx;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -55,14 +56,14 @@ public class DifficultyScreen extends InputAdapter implements Screen {
 
         renderer.begin(ShapeType.Filled);
 
-        renderer.setColor(Constant.EASY_COLOR);
-        renderer.circle(Constant.EASY_CENTER.x, Constant.EASY_CENTER.y, Constant.DIFFICULTY_BUBBLE_RADIUS);
+        renderer.setColor(Color.BROWN);
+        renderer.rect(Constant.EASY_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS,Constant.EASY_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2*Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
 
         renderer.setColor(Constant.MEDIUM_COLOR);
-        renderer.circle(Constant.MEDIUM_CENTER.x, Constant.MEDIUM_CENTER.y, Constant.DIFFICULTY_BUBBLE_RADIUS);
+        renderer.rect(Constant.MEDIUM_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS, Constant.MEDIUM_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2* Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
 
         renderer.setColor(Constant.HARD_COLOR);
-        renderer.circle(Constant.HARD_CENTER.x, Constant.HARD_CENTER.y, Constant.DIFFICULTY_BUBBLE_RADIUS);
+        renderer.rect(Constant.HARD_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS, Constant.HARD_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2*Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
 
         renderer.end();
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -72,13 +73,13 @@ public class DifficultyScreen extends InputAdapter implements Screen {
         batch.begin();
 
         final GlyphLayout easyLayout = new GlyphLayout(font, Constant.EASY_LABEL);
-        font.draw(batch, Constant.EASY_LABEL, Constant.EASY_CENTER.x, Constant.EASY_CENTER.y + easyLayout.height / 2, 0, Align.center, false);
+        font.draw(batch, Constant.EASY_LABEL, Constant.EASY_CENTER.x, Constant.EASY_CENTER.y-20, 0, Align.center, false);
 
         final GlyphLayout mediumLayout = new GlyphLayout(font, Constant.MEDIUM_LABEL);
-        font.draw(batch, Constant.MEDIUM_LABEL, Constant.MEDIUM_CENTER.x, Constant.MEDIUM_CENTER.y + mediumLayout.height / 2, 0, Align.center, false);
+        font.draw(batch, Constant.MEDIUM_LABEL, Constant.MEDIUM_CENTER.x, Constant.MEDIUM_CENTER.y-20, 0, Align.center, false);
 
         final GlyphLayout hardLayout = new GlyphLayout(font, Constant.HARD_LABEL);
-        font.draw(batch, Constant.HARD_LABEL, Constant.HARD_CENTER.x, Constant.HARD_CENTER.y + hardLayout.height / 2, 0, Align.center, false);
+        font.draw(batch, Constant.HARD_LABEL, Constant.HARD_CENTER.x, Constant.HARD_CENTER.y-20, 0, Align.center, false);
 
         batch.end();
     }

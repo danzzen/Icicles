@@ -10,6 +10,9 @@ public class Icicles {
     Viewport viewport;
     Constant.Difficulty difficulty;
     public int count=0,c=0;
+    public Icicles(){
+
+    }
     public Icicles(Constant.Difficulty difficulty,Viewport viewport){
         this.viewport=viewport;
         this.difficulty=difficulty;

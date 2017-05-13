@@ -12,6 +12,7 @@ public class Player {
     Vector2 position;
     //some constants
     public int death=0;
+    Icicles icicles;
     public static final float PLAYER_HEIGHT_RATIO=0.02f;
     public static final float PLAYER_HEAD_RADIUS=0.001f;
     //When dealing with different screens it is often necessary to decide for a certain strategy how those different screen sizes and aspect
@@ -19,12 +20,14 @@ public class Player {
     // Camera.project(vec, viewportX, viewportY, viewportWidth, viewportHeight).
     Viewport viewport;
     public Player(Viewport viewport)
-    {
+    {   icicles=new Icicles();
         this.viewport=viewport;//assigned it the view port
         init();
     }
     public void init(){
-        position= new Vector2(viewport.getWorldHeight(), Constant.PLAYER_HEAD_HEIGHT);//giving the initial position
+        position= new Vector2(viewport.getWorldHeight(), Constant.PLAYER_HEAD_HEIGHT);
+        //giving the initial position
+
     }
     public void update(float delta)//delta is time difference between last frame and current frame
     {
@@ -53,6 +56,7 @@ public class Player {
             if(icicle.position.dst(position)<Constant.PLAYER_HEAD_RADIUS) {
                 isHi = true;
                 death++;
+                icicles.count=0;
             }
         }
         return  isHi;

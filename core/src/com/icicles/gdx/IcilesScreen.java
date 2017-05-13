@@ -62,6 +62,7 @@ public class IcilesScreen implements Screen{
     @Override
     public void resize(int width, int height) {
         iciclesViewport.update(width, height, true);//update viewport on resize
+        hudViewport.update(width,height,true);
         player.init();
         icicles.init();
     }
@@ -86,7 +87,7 @@ public class IcilesScreen implements Screen{
             icicles.init();
         }
         //apply viewport
-        iciclesViewport.apply(true);
+
         //always
         Gdx.gl.glClearColor(Constant.BACKGROUND_COLOR.r, Constant.BACKGROUND_COLOR.g, Constant.BACKGROUND_COLOR.b, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -94,18 +95,19 @@ public class IcilesScreen implements Screen{
 
         batch.begin();
         batch.setColor(Color.BLACK);
-
+        hudViewport.apply(true);
         //font.draw(batch,Integer.toString(icicles.count),10,iciclesViewport.getWorldHeight());
         topScore=Math.max(topScore,icicles.count);
         prefs.putInteger("int", topScore);
         prefs.flush();
         font.draw(batch, "Deaths: " + player.death + "\nDifficulty: " +difficulty.label,
-                Constant.HUD_MARGIN, hudViewport.getWorldHeight() - Constant.HUD_MARGIN);
+               10,10);
         font.draw(batch, "Score: " + icicles.count+ "\nTop Score: " + topScore,
                 hudViewport.getWorldWidth() - Constant.HUD_MARGIN, hudViewport.getWorldHeight() - Constant.HUD_MARGIN,
                 0, Align.right, false);
 
         batch.end();
+        iciclesViewport.apply(true);
         renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
