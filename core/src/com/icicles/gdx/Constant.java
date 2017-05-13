@@ -52,6 +52,6 @@ public class Constant {
     public static final Color GADGETTYPE_1=Color.DARK_GRAY;
     public static final Color GADGETTYPE_2=Color.CORAL;
     public static final Color GADGETTYPE_3=Color.FOREST;
-    public static final float GADAGETTYPE_1_RADIUS=20f;
+    public static final float GADAGETTYPE_1_RADIUS=0.25f;
 
 }

@@ -31,6 +31,7 @@ public class IcilesScreen implements Screen{
     int topScore=0;
     Preferences prefs;
     ScreenViewport hudViewport;
+    gadgets gdts;
     public IcilesScreen(IciclesGame game, Constant.Difficulty d){
         this.game = game;
         this.difficulty =d;
@@ -43,6 +44,7 @@ public class IcilesScreen implements Screen{
         hudViewport=new ScreenViewport();
         player = new Player(iciclesViewport);//creating innstance of player class
         icicles = new Icicles(difficulty,iciclesViewport);//creating innstance of Icicles class
+        gdts=new gadgets(difficulty,iciclesViewport);
         batch=new SpriteBatch();
         font=new BitmapFont();
 
@@ -65,6 +67,7 @@ public class IcilesScreen implements Screen{
         hudViewport.update(width,height,true);
         player.init();
         icicles.init();
+        gdts.init();
     }
 
     @Override
@@ -81,6 +84,7 @@ public class IcilesScreen implements Screen{
     @Override
     public void render(float delta) {
         icicles.update(delta);
+        gdts.update(delta);
         player.update(delta);
         if(player.hitByIcicle(icicles))
         {
@@ -112,6 +116,7 @@ public class IcilesScreen implements Screen{
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         icicles.render(renderer);
+        gdts.render(renderer);
         player.render(renderer);
         renderer.end();
 

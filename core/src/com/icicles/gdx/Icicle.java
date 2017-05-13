@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Icicle {
     public static final String TAG = Icicle.class.getName();
     Vector2 position;
-    Vector2 velocity;
+    private Vector2 velocity;
     public Icicle(Vector2 position){
         this.position=position;
         velocity=new Vector2(0,0);
@@ -21,6 +21,7 @@ public class Icicle {
 //            this.y += vec.y * scalar;
 //            return this;
 //        }
+
         position.mulAdd(velocity, delta);
     }
     public void render(ShapeRenderer renderer){
