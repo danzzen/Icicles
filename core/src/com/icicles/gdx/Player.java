@@ -11,7 +11,7 @@ public class Player {
     //we create vector to store x and y coordinates of objects
     Vector2 position;
     //some constants
-    public int death=0;
+    public int death=0,health=0;
     Icicles icicles;
     public static final float PLAYER_HEIGHT_RATIO=0.02f;
     public static final float PLAYER_HEAD_RADIUS=0.001f;
@@ -22,6 +22,7 @@ public class Player {
     public Player(Viewport viewport)
     {   icicles=new Icicles();
         this.viewport=viewport;//assigned it the view port
+        health=100;
         init();
     }
     public void init(){
@@ -60,6 +61,18 @@ public class Player {
             }
         }
         return  isHi;
+    }
+    public boolean hitByGadget(gadgets gadt)
+    {
+        boolean isGd=false;
+        for(gadget gd:gadt.list2)
+        {
+            if(gd.position.dst(position)<Constant.PLAYER_HEAD_RADIUS)
+            {
+                isGd=true;
+            }
+        }
+        return isGd;
     }
     public void render(ShapeRenderer renderer){
         renderer.setColor(Color.BLACK);
