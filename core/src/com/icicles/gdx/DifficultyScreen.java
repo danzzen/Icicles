@@ -21,11 +21,9 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     public static final String TAG = DifficultyScreen.class.getName();
 
     IciclesGame game;
-
     ShapeRenderer renderer;
     SpriteBatch batch;
     FitViewport viewport;
-
     BitmapFont font;
 
     public DifficultyScreen(IciclesGame game) {
@@ -83,13 +81,11 @@ public class DifficultyScreen extends InputAdapter implements Screen {
 
         batch.end();
     }
-
     @Override
     public void resize(int width, int height) {
 
         viewport.update(width, height, true);
     }
-
     @Override
     public void pause() {
 
@@ -99,7 +95,6 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     public void resume() {
 
     }
-
     @Override
     public void hide() {
         batch.dispose();
@@ -111,26 +106,22 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     public void dispose() {
 
     }
-
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
-
-
-
         if (worldTouch.dst(Constant.EASY_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.EASY);
+            Gdx.input.setInputProcessor(null);
         }
-
         if (worldTouch.dst(Constant.MEDIUM_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.MEDIUM);
+            Gdx.input.setInputProcessor(null);
         }
-
         if (worldTouch.dst(Constant.HARD_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.HARD);
+            Gdx.input.setInputProcessor(null);
         }
-
         return true;
     }
 }

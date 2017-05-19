@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -23,6 +24,7 @@ public class IcilesScreen implements Screen{
     private BitmapFont font;
     private IciclesGame game;
     int topScore=0;
+    //Stage s;
     private Preferences prefs;
     private ScreenViewport hudViewport;
     private gadgets gdts;
@@ -41,7 +43,7 @@ public class IcilesScreen implements Screen{
         gdts=new gadgets(difficulty,iciclesViewport);
         batch=new SpriteBatch();
         font=new BitmapFont();
-
+       // Gdx.input.setInputProcessor(this);
      prefs = Gdx.app.getPreferences("my-preferences");
     if(prefs.getInteger("int")==0)
     {
