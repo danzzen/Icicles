@@ -1,20 +1,21 @@
 package com.icicles.gdx;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-/**
- * Created by lenovo on 13-05-2017.
- */
+import java.util.Random;
 
 public class gadgets {
         DelayedRemovalArray<gadget> list2;
-        Viewport viewport;
-        Constant.Difficulty difficulty;
+        private Viewport viewport;
+        private Constant.Difficulty difficulty;
         Icicles icicles;
+        private float countDown;
+        public int type;
         public gadgets(){
         }
         public gadgets(Constant.Difficulty difficulty,Viewport viewport){
@@ -23,16 +24,20 @@ public class gadgets {
             init();
         }
         public void init(){
-
             list2=new DelayedRemovalArray<gadget>(100);
         }
         public void update(float delta){
-
-            if(MathUtils.random()<delta*0.15)
+            countDown-=delta*100;
+            if(MathUtils.random()<delta*1.15)
             {
-                Vector2 newGdt=new Vector2(MathUtils.random()*viewport.getWorldWidth(),viewport.getWorldHeight());
-                gadget gdt=new gadget(newGdt);
-                list2.add(gdt);
+                if(countDown<=0) {
+                    Vector2 newGdt = new Vector2(MathUtils.random() * viewport.getWorldWidth(), viewport.getWorldHeight());
+                    gadget gdt = new gadget(newGdt);
+                    list2.add(gdt);
+                    countDown+=500;
+                    Random random = new Random();
+                    type = random.nextInt(3) + 1;
+               }
             }
 
             for(gadget gdt: list2){
@@ -53,7 +58,8 @@ public class gadgets {
 
             shapeRenderer.setColor(Constant.GADGETTYPE_1);
             for(gadget gd:list2){
-                gd.render(shapeRenderer);
+
+                gd.render(shapeRenderer,type);
             }
         }
     }

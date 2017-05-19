@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  * Created by lenovo on 13-05-2017.
  */
 
-public class gadget {
+public class gadget{
     Vector2 position;
     Vector2 velocity;
     public int type=1;
@@ -27,8 +27,8 @@ public class gadget {
 //        }
         position.mulAdd(velocity, delta);
     }
-    public void render(ShapeRenderer shapeRenderer)
-    {
+    public void render(ShapeRenderer shapeRenderer,int t)
+    {type=t;
      switch (type)
      {
          case 1:

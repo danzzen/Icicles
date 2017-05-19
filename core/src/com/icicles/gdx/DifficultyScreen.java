@@ -34,8 +34,6 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     public void show() {
         renderer = new ShapeRenderer();
         batch = new SpriteBatch();
-
-
         viewport = new FitViewport(Constant.DIFFICULTY_WORLD_SIZE, Constant.DIFFICULTY_WORLD_SIZE);
         Gdx.input.setInputProcessor(this);
 

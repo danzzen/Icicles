@@ -89,7 +89,7 @@ public class IcilesScreen implements Screen{
         }
         //apply viewport
         if(player.hitByGadget(gdts))
-        {
+        {  if(gdts.type==1)
             icicles.init();
             gdts.init();
         }
@@ -99,6 +99,7 @@ public class IcilesScreen implements Screen{
       //  batch.setProjectionMatrix(iciclesViewport.getCamera().combined); //or your matrix to draw GAME WORLD, not UI
 
         batch.begin();
+
         batch.setColor(Color.BLACK);
         hudViewport.apply(true);
         //font.draw(batch,Integer.toString(icicles.count),10,iciclesViewport.getWorldHeight());

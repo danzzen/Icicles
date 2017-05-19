@@ -13,6 +13,7 @@ public class Player {
     //some constants
     public int death=0,health=0;
     Icicles icicles;
+    gadgets gdt;
     public static final float PLAYER_HEIGHT_RATIO=0.02f;
     public static final float PLAYER_HEAD_RADIUS=0.001f;
     //When dealing with different screens it is often necessary to decide for a certain strategy how those different screen sizes and aspect
@@ -23,6 +24,7 @@ public class Player {
     {   icicles=new Icicles();
         this.viewport=viewport;//assigned it the view port
         health=100;
+        gdt=new gadgets();
         init();
     }
     public void init(){

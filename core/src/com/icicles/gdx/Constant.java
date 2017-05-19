@@ -22,7 +22,7 @@ public class Constant {
     public static final String HARD_LABEL = "Expert";
     public static final float EASY_SPAWNS_PER_SECOND = 5;
     public static final float MEDIUM_SPAWNS_PER_SECOND = 10;
-    public static final float HARD_SPAWNS_PER_SECOND =17;
+    public static final float HARD_SPAWNS_PER_SECOND =16;
     public static final Color EASY_COLOR = new Color(0.2f, 0.2f, 1, 1);
     public static final Color MEDIUM_COLOR = new Color(0.5f, 0.5f, 1, 1);
     public static final Color HARD_COLOR = new Color(0.7f, 0.7f, 1, 1);
@@ -35,14 +35,13 @@ public class Constant {
     public static final Vector2 MEDIUM_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE / 2, DIFFICULTY_WORLD_SIZE / 2);
     public static final Vector2 HARD_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE /2, DIFFICULTY_WORLD_SIZE *1/4);
 
-    public enum Difficulty {
+    public enum Difficulty{
         EASY(EASY_SPAWNS_PER_SECOND, EASY_LABEL),
         MEDIUM(MEDIUM_SPAWNS_PER_SECOND, MEDIUM_LABEL),
         HARD(HARD_SPAWNS_PER_SECOND, HARD_LABEL);
 
         float spawnRate;
         String label;
-
         Difficulty(float spawnRate, String label) {
             this.spawnRate = spawnRate;
             this.label = label;
