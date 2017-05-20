@@ -79,47 +79,62 @@ public class IcilesScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        icicles.update(delta);
-        gdts.update(delta);
-        player.update(delta);
-        if(player.hitByIcicle(icicles))
+        if(player.health<=0)
         {
-            icicles.init();
-            gdts.init();
+            pause();
         }
-        //apply viewport
-        if(player.hitByGadget(gdts))
-        {  if(gdts.type==1)
-            icicles.init();
-            gdts.init();
+        else {
+            icicles.update(delta);
+            gdts.update(delta);
+            player.update(delta);
+            if (player.hitByIcicle(icicles)) {
+                icicles.init();
+                gdts.init();
+            }
+            //apply viewport
+            if (player.hitByGadget(gdts)) {
+                if (gdts.type == 1)
+                    icicles.init();
+                if (gdts.type == 2) {
+                    player.count = 500;
+                    player.isRed = true;
+                }
+                if (gdts.type == 3) {
+                    if (player.health < 5)
+                        player.health += 1;
+                }
+                gdts.init();
+            }
+            if (player.hitBySheild(icicles)) {
+
+            }
+            //always
+
+            Gdx.gl.glClearColor(Constant.BACKGROUND_COLOR.r, Constant.BACKGROUND_COLOR.g, Constant.BACKGROUND_COLOR.b, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            //  batch.setProjectionMatrix(iciclesViewport.getCamera().combined); //or your matrix to draw GAME WORLD, not UI
+
+            batch.begin();
+
+            batch.setColor(Color.BLACK);
+            hudViewport.apply(true);
+            //font.draw(batch,Integer.toString(icicles.count),10,iciclesViewport.getWorldHeight());
+            topScore = Math.max(topScore, icicles.count);
+            prefs.putInteger("int", topScore);
+            prefs.flush();
+            font.draw(batch, "Score: " + icicles.count + "\nTop Score: " + topScore,
+                    hudViewport.getWorldWidth() - Constant.HUD_MARGIN, hudViewport.getWorldHeight() - Constant.HUD_MARGIN,
+                    0, Align.right, false);
+            font.draw(batch, "Life: " + player.health, hudViewport.getWorldWidth() / 4 - 20, hudViewport.getWorldHeight() - Constant.HUD_MARGIN, 0, Align.right, false);
+            batch.end();
+            iciclesViewport.apply(true);
+            renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            icicles.render(renderer);
+            gdts.render(renderer);
+            player.render(renderer);
+            renderer.end();
         }
-        //always
-        Gdx.gl.glClearColor(Constant.BACKGROUND_COLOR.r, Constant.BACKGROUND_COLOR.g, Constant.BACKGROUND_COLOR.b, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-      //  batch.setProjectionMatrix(iciclesViewport.getCamera().combined); //or your matrix to draw GAME WORLD, not UI
-
-        batch.begin();
-
-        batch.setColor(Color.BLACK);
-        hudViewport.apply(true);
-        //font.draw(batch,Integer.toString(icicles.count),10,iciclesViewport.getWorldHeight());
-        topScore=Math.max(topScore,icicles.count);
-        prefs.putInteger("int", topScore);
-        prefs.flush();
-        font.draw(batch, "Deaths: " + player.death + "\nDifficulty: " +difficulty.label,
-               10,10);
-        font.draw(batch, "Score: " + icicles.count+ "\nTop Score: " + topScore,
-                hudViewport.getWorldWidth() - Constant.HUD_MARGIN, hudViewport.getWorldHeight() - Constant.HUD_MARGIN,
-                0, Align.right, false);
-        font.draw(batch,"Health: "+player.health,hudViewport.getWorldWidth()/4-20,hudViewport.getWorldHeight()-Constant.HUD_MARGIN,0,Align.right,false);
-        batch.end();
-        iciclesViewport.apply(true);
-        renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        icicles.render(renderer);
-        gdts.render(renderer);
-        player.render(renderer);
-        renderer.end();
 
     }
 

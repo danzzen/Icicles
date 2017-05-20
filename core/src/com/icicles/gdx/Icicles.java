@@ -19,7 +19,7 @@ public class Icicles {
         this.difficulty=difficulty;
         init();
     }
-    public void init(){
+    public void  init(){
         list=new DelayedRemovalArray<Icicle>(100);
 
     }
