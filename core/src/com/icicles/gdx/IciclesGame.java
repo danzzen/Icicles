@@ -12,8 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class IciclesGame extends Game {
 	SpriteBatch batch;
 	Texture img;
-
-	@Override
+    @Override
 	public void create() {
 		showDifficultyScreen();
 	}
@@ -26,7 +25,7 @@ public class IciclesGame extends Game {
 	{
 		setScreen(new IcilesScreen(this,di));
 	}
-	public void showResumeScreen(int x ,int y){
-		setScreen(new ResumeScreen(x,y));
+	public void showResumeScreen(int x ,int y,Constant.Difficulty di){
+		setScreen(new ResumeScreen(x,y,this,di));
 	}
 }

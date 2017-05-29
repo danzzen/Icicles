@@ -1,5 +1,6 @@
 package com.icicles.gdx;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -7,12 +8,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class IcilesScreen implements Screen{
+public class IcilesScreen extends InputAdapter implements Screen{
     //implementing screen so we will implement all the meethods
     public static final String TAG = IcilesScreen.class.getName();
     private ExtendViewport iciclesViewport;
@@ -43,7 +46,7 @@ public class IcilesScreen implements Screen{
         gdts=new gadgets(difficulty,iciclesViewport);
         batch=new SpriteBatch();
         font=new BitmapFont();
-       // Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(this);
      prefs = Gdx.app.getPreferences("my-preferences");
     if(prefs.getInteger("int")==0)
     {
@@ -135,6 +138,10 @@ public class IcilesScreen implements Screen{
             icicles.render(renderer);
             gdts.render(renderer);
             player.render(renderer);
+            renderer.rectLine(iciclesViewport.getWorldWidth()/5-2,iciclesViewport.getWorldHeight()-0.3f,
+                    iciclesViewport.getWorldWidth()/5-2,iciclesViewport.getWorldHeight()-0.7f,0.1f);
+            renderer.rectLine(iciclesViewport.getWorldWidth()/5-1.8f,iciclesViewport.getWorldHeight()-0.3f,
+                    iciclesViewport.getWorldWidth()/5-1.8f,iciclesViewport.getWorldHeight()-0.7f,0.1f);
             renderer.end();
         }
 
@@ -142,7 +149,7 @@ public class IcilesScreen implements Screen{
 
     @Override
     public void resume() {
-    game.showResumeScreen(icicles.count,topScore);
+    game.showResumeScreen(icicles.count,topScore,difficulty);
     }
 
     @Override
@@ -151,4 +158,14 @@ public class IcilesScreen implements Screen{
     }
 
 
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector2 WorldTouch=iciclesViewport.unproject(new Vector2(screenX,screenY));
+        Vector2 resumeButtonTouch=new Vector2(iciclesViewport.getWorldWidth()/5-1.9f,iciclesViewport.getWorldHeight()-0.5f);
+        if(WorldTouch.dst(resumeButtonTouch)<0.2)
+        {
+            resume();
+        }
+        return true;
+    }
 }

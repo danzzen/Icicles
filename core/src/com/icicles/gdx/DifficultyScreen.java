@@ -110,7 +110,7 @@ public class DifficultyScreen extends InputAdapter implements Screen {
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
         if (worldTouch.dst(Constant.EASY_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.EASY);
-            Gdx.input.setInputProcessor(null);
+           Gdx.input.setInputProcessor(null);
         }
         if (worldTouch.dst(Constant.MEDIUM_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.MEDIUM);
