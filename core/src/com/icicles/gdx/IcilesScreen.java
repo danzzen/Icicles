@@ -81,7 +81,7 @@ public class IcilesScreen implements Screen{
     public void render(float delta) {
         if(player.health<=0)
         {
-            pause();
+            resume();
         }
         else {
             icicles.update(delta);
@@ -110,7 +110,7 @@ public class IcilesScreen implements Screen{
             }
             //always
 
-            Gdx.gl.glClearColor(Constant.BACKGROUND_COLOR.r, Constant.BACKGROUND_COLOR.g, Constant.BACKGROUND_COLOR.b, 1);
+            Gdx.gl.glClearColor(242/255f, 194/255f, 128/255f,1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             //  batch.setProjectionMatrix(iciclesViewport.getCamera().combined); //or your matrix to draw GAME WORLD, not UI
 
@@ -130,6 +130,8 @@ public class IcilesScreen implements Screen{
             iciclesViewport.apply(true);
             renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
             renderer.begin(ShapeRenderer.ShapeType.Filled);
+          //  renderer.circle();
+            renderer.setColor(239f, 187f, 115f,1f);
             icicles.render(renderer);
             gdts.render(renderer);
             player.render(renderer);
@@ -140,7 +142,7 @@ public class IcilesScreen implements Screen{
 
     @Override
     public void resume() {
-
+    game.showResumeScreen(icicles.count,topScore);
     }
 
     @Override

@@ -1,11 +1,6 @@
 package com.icicles.gdx;
-
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-
-/**
- * Created by lenovo on 13-05-2017.
- */
 
 public class gadget{
     Vector2 position;
@@ -34,17 +29,17 @@ public class gadget{
          case 1:
              shapeRenderer.setColor(Constant.GADGETTYPE_1);
              shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-             shapeRenderer.circle(position.x,position.y,Constant.GADAGETTYPE_1_RADIUS);
+             shapeRenderer.circle(position.x,position.y,Constant.GADAGETTYPE_1_RADIUS,20);
              break;
          case 2:
              shapeRenderer.setColor(Constant.GADGETTYPE_2);
              shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-             shapeRenderer.circle(position.x,position.y,Constant.GADAGETTYPE_1_RADIUS);
+             shapeRenderer.circle(position.x,position.y,Constant.GADAGETTYPE_1_RADIUS,20);
              break;
          case 3:
              shapeRenderer.setColor(Constant.GADGETTYPE_3);
              shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-             shapeRenderer.circle(position.x,position.y,Constant.GADAGETTYPE_1_RADIUS);
+             shapeRenderer.circle(position.x,position.y,Constant.GADAGETTYPE_1_RADIUS,20);
              break;
      }
     }

@@ -46,19 +46,19 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     public void render(float delta) {
 
         viewport.apply();
-        Gdx.gl.glClearColor(Constant.BACKGROUND_COLOR.r, Constant.BACKGROUND_COLOR.g, Constant.BACKGROUND_COLOR.b, 1);
+        Gdx.gl.glClearColor(244/255f, 227/255f, 203/255f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.setProjectionMatrix(viewport.getCamera().combined);
 
         renderer.begin(ShapeType.Filled);
 
-        renderer.setColor(Color.BROWN);
+        renderer.setColor(247/255f, 205/255f, 145/255f,1);
         renderer.rect(Constant.EASY_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS,Constant.EASY_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2*Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
 
-        renderer.setColor(Constant.MEDIUM_COLOR);
+        renderer.setColor(244/255f, 186/255f,102/255f,1);
         renderer.rect(Constant.MEDIUM_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS, Constant.MEDIUM_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2* Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
 
-        renderer.setColor(Constant.HARD_COLOR);
+        renderer.setColor(247/255f, 156/255f, 27/255f,1f);
         renderer.rect(Constant.HARD_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS, Constant.HARD_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2*Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
 
         renderer.end();
