@@ -17,6 +17,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -24,84 +30,139 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 
 
-public class DifficultyScreen extends InputAdapter implements Screen,AssetErrorListener {
+public class DifficultyScreen  extends InputAdapter implements Screen,AssetErrorListener {
 
     public static final String TAG = DifficultyScreen.class.getName();
     private static final String ATLAS ="images/button.pack.atlas";
-    private static final String STANDING_RIGHT ="btn";
+    private static final String STANDING_RIGHT ="diffuclty";
 
     IciclesGame game;
     private ShapeRenderer renderer;
     SpriteBatch batch;
     ExtendViewport viewport;
     BitmapFont font;
-    AssetManager assetManager;
-    TextureAtlas.AtlasRegion atlasRegion;
+   // AssetManager assetManager;
+   /// TextureAtlas.AtlasRegion atlasRegion;
     public DifficultyScreen(IciclesGame game) {
         this.game = game;
     }
     TextureRegion backgroundTexture;
+    Stage stage;
+    TextButton button,button2,button3;
+    TextButton.TextButtonStyle textButtonStyle;
+    Skin skin;
+    TextureAtlas buttonAtlas;
+    AssetManager assetManager;
+    TextureAtlas.AtlasRegion atlasRegion;
+
     @Override
 
     public void show() {
         renderer = new ShapeRenderer();
+        font=new BitmapFont();
+        batch = new SpriteBatch();
+        backgroundTexture = new TextureRegion(new Texture("background_edited.jpg") ,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        viewport = new ExtendViewport(Constant.DIFFICULTY_WORLD_SIZE, Constant.DIFFICULTY_WORLD_SIZE);
+       Gdx.input.setInputProcessor(this);
         assetManager=new AssetManager();
         assetManager.setErrorListener( this);
         assetManager.load(ATLAS,TextureAtlas.class);
         assetManager.finishLoading();
-        TextureAtlas atlas=assetManager.get(ATLAS);
-        atlasRegion= atlas.findRegion(STANDING_RIGHT);
-        batch = new SpriteBatch();
-        backgroundTexture = new TextureRegion(new Texture("background_edited.jpg") ,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-
-        viewport = new ExtendViewport(Constant.DIFFICULTY_WORLD_SIZE, Constant.DIFFICULTY_WORLD_SIZE);
-        Gdx.input.setInputProcessor(this);
-
-        font = new BitmapFont();
         font.getData().setScale(Constant.DIFFICULTY_LABEL_SCALE);
         font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        TextureAtlas atlas=assetManager.get(ATLAS);
+        atlasRegion= atlas.findRegion(STANDING_RIGHT);
+        skin = new Skin();
+        stage=new Stage();
+        skin.addRegions(atlas);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        textButtonStyle.up = skin.getDrawable("diffuclty");
+        button = new TextButton("Easy", textButtonStyle);
+        button.setHeight(Gdx.graphics.getHeight()/8); //** Button Height **//
+        button.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
+        button2=new TextButton("Hard",textButtonStyle);
+        button2.setHeight(Gdx.graphics.getHeight()/8); //** Button Height **//
+        button2.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
+        button3=new TextButton("Expert",textButtonStyle);
+        button3.setHeight(Gdx.graphics.getHeight()/8); //** Button Height **//
+        button3.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
+        button.setPosition(0,Gdx.graphics.getHeight()*3/4);
+        button2.setPosition(0,Gdx.graphics.getHeight()*3/4);
+        button3.setPosition(0,Gdx.graphics.getHeight()*3/4);
+        button.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+                game.showIciclesScreen(Constant.Difficulty.EASY);
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.showIciclesScreen(Constant.Difficulty.EASY);
+                dispose();
+            }});
+
+
+
+        MoveToAction moveAction = new MoveToAction();//Add dynamic movement effects to button
+        moveAction.setPosition(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()*3/4);
+        moveAction.setDuration(.5f);
+        button.addAction(moveAction);
+
+        button2.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.showIciclesScreen(Constant.Difficulty.MEDIUM);
+                dispose();
+            }});
+
+
+
+        MoveToAction moveAction1 = new MoveToAction();//Add dynamic movement effects to button
+        moveAction1.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()*3/4);
+        moveAction1.setDuration(.4f);
+        button2.addAction(moveAction1);
+        stage.addActor(button2);
+        stage.addActor(button);
+        button3.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.showIciclesScreen(Constant.Difficulty.HARD);
+                dispose();
+            }});
+
+
+
+        MoveToAction moveAction3 = new MoveToAction();//Add dynamic movement effects to button
+        moveAction3.setPosition(Gdx.graphics.getWidth()*3/4, Gdx.graphics.getHeight()*3/4);
+        moveAction3.setDuration(.2f);
+        button3.addAction(moveAction3);
+        stage.addActor(button3);
     }
 
     @Override
     public void render(float delta) {
-
         viewport.apply();
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.setProjectionMatrix(viewport.getCamera().combined);
-
         renderer.begin(ShapeType.Filled);
-
-
         renderer.end();
         batch.setProjectionMatrix(viewport.getCamera().combined);
-
-
-        // HINT: Use GlyphLayout to get vertical centering
         batch.begin();
         batch.draw(backgroundTexture,0,0);
-        batch.draw(
-                atlasRegion.getTexture(),
-                viewport.getWorldWidth()/4,
-                viewport.getWorldHeight()/2+20,
-                0,
-                0,
-                atlasRegion.getRegionWidth(),
-                atlasRegion.getRegionHeight(),
-                1,
-                1,
-                0,
-                atlasRegion.getRegionX(),
-                atlasRegion.getRegionY(),
-                atlasRegion.getRegionWidth(),
-                atlasRegion.getRegionHeight(),
-                false,
-                false);
-        font.draw(batch, Constant.EASY_LABEL, Constant.EASY_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.EASY_CENTER.y);
-
-        font.draw(batch, Constant.MEDIUM_LABEL, Constant.MEDIUM_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.MEDIUM_CENTER.y);
-
-        font.draw(batch, Constant.HARD_LABEL, Constant.HARD_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.HARD_CENTER.y);
+        batch.end();
+        batch.begin();
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
         batch.end();
     }
     @Override

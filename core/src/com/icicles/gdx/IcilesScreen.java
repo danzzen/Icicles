@@ -149,6 +149,7 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
 
             stage.act();
             batch.begin();
+            batch.draw(backgroundTexture,0,0);
             stage.draw();
             batch.end();
         } else {
@@ -198,7 +199,6 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
             iciclesViewport.apply(true);
             renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
             renderer.begin(ShapeRenderer.ShapeType.Filled);
-            renderer.setColor(239f, 187f, 115f, 1f);
             icicles.render(renderer);
             gdts.render(renderer);
             player.render(renderer);

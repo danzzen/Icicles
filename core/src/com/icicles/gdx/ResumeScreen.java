@@ -68,14 +68,13 @@ public class ResumeScreen extends InputAdapter implements Screen,AssetErrorListe
         TextureAtlas atlas=assetManager.get(ATLAS);
         atlasRegion= atlas.findRegion(STANDING_RIGHT);
         skin = new Skin();
-
         skin.addRegions(atlas);
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("btn");
         button = new TextButton("Button1", textButtonStyle);
-        button.setHeight(Gdx.graphics.getHeight()/3); //** Button Height **//
-        button.setWidth(Gdx.graphics.getWidth()/4); //** Button Width **//
+        button.setHeight(Gdx.graphics.getHeight()/6); //** Button Height **//
+        button.setWidth(Gdx.graphics.getWidth()/8); //** Button Width **//
 
         button.setPosition(Gdx.graphics.getWidth()/2-button.getWidth()/2, Gdx.graphics.getHeight());
         button.addListener(new InputListener() {
@@ -180,24 +179,24 @@ public class ResumeScreen extends InputAdapter implements Screen,AssetErrorListe
     public void dispose() {
         renderer.dispose();
     }
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        Gdx.input.setInputProcessor(this);
-        Vector2 WorldTouch=pasViewport.unproject(new Vector2(screenX,screenY));
-        Vector2 rtouch=new Vector2(pasViewport.getWorldWidth()/4,pasViewport.getWorldHeight()/4);
-        Vector2 etouct=new Vector2(pasViewport.getWorldWidth()*3/4,pasViewport.getWorldHeight()/4);
-        if(WorldTouch.dst(rtouch)<0.7)
-        {
-            game.showIciclesScreen(di);
-            //Gdx.input.setInputProcessor(null);
-        }
-        if(WorldTouch.dst(etouct)<0.7)
-        {
-            game.showDifficultyScreen();
-           // Gdx.input.setInputProcessor(null);
-        }
-        return true;
-    }
+  //  @Override
+//    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+////        Gdx.input.setInputProcessor(this);
+//        Vector2 WorldTouch=pasViewport.unproject(new Vector2(screenX,screenY));
+//        Vector2 rtouch=new Vector2(pasViewport.getWorldWidth()/4,pasViewport.getWorldHeight()/4);
+//        Vector2 etouct=new Vector2(pasViewport.getWorldWidth()*3/4,pasViewport.getWorldHeight()/4);
+//        if(WorldTouch.dst(rtouch)<0.7)
+//        {
+//            game.showIciclesScreen(di);
+//            //Gdx.input.setInputProcessor(null);
+//        }
+//        if(WorldTouch.dst(etouct)<0.7)
+//        {
+//            game.showDifficultyScreen();
+//           // Gdx.input.setInputProcessor(null);
+//        }
+//        return true;
+//    }
 
 
     @Override
