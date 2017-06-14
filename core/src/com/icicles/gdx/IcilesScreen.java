@@ -5,17 +5,29 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetErrorListener;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class IcilesScreen extends InputAdapter implements Screen {
+public class IcilesScreen extends InputAdapter implements Screen, AssetErrorListener {
     public static final String TAG = IcilesScreen.class.getName();
     private ExtendViewport iciclesViewport;
     private ShapeRenderer renderer;
@@ -29,6 +41,16 @@ public class IcilesScreen extends InputAdapter implements Screen {
     private Preferences prefs;
     private ScreenViewport hudViewport;
     private gadgets gdts;
+    TextButton button;
+    TextButton.TextButtonStyle textButtonStyle;
+    Skin skin;
+    TextureAtlas buttonAtlas;
+    AssetManager assetManager;
+    TextureAtlas.AtlasRegion atlasRegion;
+    TextureRegion backgroundTexture;
+    private static final String ATLAS = "images/button.pack.atlas";
+    private static final String STANDING_RIGHT = "btn";
+    Stage stage;
 
     public IcilesScreen(IciclesGame game, Constant.Difficulty d) {
         this.game = game;
@@ -48,7 +70,49 @@ public class IcilesScreen extends InputAdapter implements Screen {
         gdts = new gadgets(difficulty, iciclesViewport);
         batch = new SpriteBatch();
         font = new BitmapFont();
+        backgroundTexture = new TextureRegion(new Texture("background_edited.jpg") ,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        assetManager = new AssetManager();
+        assetManager.setErrorListener(this);
+        assetManager.load(ATLAS, TextureAtlas.class);
+        assetManager.finishLoading();
+        TextureAtlas atlas = assetManager.get(ATLAS);
+        atlasRegion = atlas.findRegion(STANDING_RIGHT);
+        skin = new Skin();
+        stage = new Stage();
+        skin.addRegions(atlas);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        textButtonStyle.up = skin.getDrawable("btn");
+        button = new TextButton("Button1", textButtonStyle);
+        button.setHeight(Gdx.graphics.getHeight() / 3); //** Button Height **//
+        button.setWidth(Gdx.graphics.getWidth() / 4); //** Button Width **//
+        button.setPosition(Gdx.graphics.getWidth() / 2 - button.getWidth() / 2, Gdx.graphics.getHeight());
+        button.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
 
+                return true;
+
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Rggggggeleased");
+
+                ///and level
+                game.showDifficultyScreen();
+
+                dispose();
+
+            }
+        });
+
+
+        MoveToAction moveAction = new MoveToAction();//Add dynamic movement effects to button
+        moveAction.setPosition(Gdx.graphics.getWidth() / 2 - button.getWidth() / 2, Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() / 6);
+        moveAction.setDuration(.5f);
+        button.addAction(moveAction);
+        stage.addActor(button);
+        //stage.addAction(backgroundTexture);
         prefs = Gdx.app.getPreferences("my-preferences");
         if (prefs.getInteger("int") == 0) {
             topScore = 0;
@@ -82,7 +146,11 @@ public class IcilesScreen extends InputAdapter implements Screen {
     @Override
     public void render(float delta) {
         if (player.health <= 0) {
-            resume();
+
+            stage.act();
+            batch.begin();
+            stage.draw();
+            batch.end();
         } else {
             icicles.update(delta);
             gdts.update(delta);
@@ -115,8 +183,8 @@ public class IcilesScreen extends InputAdapter implements Screen {
             //  batch.setProjectionMatrix(iciclesViewport.getCamera().combined); //or your matrix to draw GAME WORLD, not UI
 
             batch.begin();
+            batch.draw(backgroundTexture,0,0);
 
-            batch.setColor(Color.BLACK);
             hudViewport.apply(true);
             //font.draw(batch,Integer.toString(icicles.count),10,iciclesViewport.getWorldHeight());
             topScore = Math.max(topScore, icicles.count);
@@ -134,10 +202,6 @@ public class IcilesScreen extends InputAdapter implements Screen {
             icicles.render(renderer);
             gdts.render(renderer);
             player.render(renderer);
-            renderer.rectLine(iciclesViewport.getWorldWidth() / 5 - 2, iciclesViewport.getWorldHeight() - 0.3f,
-                    iciclesViewport.getWorldWidth() / 5 - 2, iciclesViewport.getWorldHeight() - 0.7f, 0.1f);
-            renderer.rectLine(iciclesViewport.getWorldWidth() / 5 - 1.8f, iciclesViewport.getWorldHeight() - 0.3f,
-                    iciclesViewport.getWorldWidth() / 5 - 1.8f, iciclesViewport.getWorldHeight() - 0.7f, 0.1f);
             renderer.end();
         }
 
@@ -162,12 +226,17 @@ public class IcilesScreen extends InputAdapter implements Screen {
         }
         return true;
     }
+
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode== Input.Keys.BACK)
-        {
+        if (keycode == Input.Keys.BACK) {
             game.showResumeScreen(icicles.count, topScore, difficulty);
         }
         return false;
+    }
+
+    @Override
+    public void error(AssetDescriptor asset, Throwable throwable) {
+
     }
 }

@@ -3,39 +3,58 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetErrorListener;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 
 
-public class DifficultyScreen extends InputAdapter implements Screen {
+public class DifficultyScreen extends InputAdapter implements Screen,AssetErrorListener {
 
     public static final String TAG = DifficultyScreen.class.getName();
+    private static final String ATLAS ="images/button.pack.atlas";
+    private static final String STANDING_RIGHT ="btn";
 
     IciclesGame game;
-    ShapeRenderer renderer;
+    private ShapeRenderer renderer;
     SpriteBatch batch;
-    FitViewport viewport;
+    ExtendViewport viewport;
     BitmapFont font;
-
+    AssetManager assetManager;
+    TextureAtlas.AtlasRegion atlasRegion;
     public DifficultyScreen(IciclesGame game) {
         this.game = game;
     }
-
+    TextureRegion backgroundTexture;
     @Override
+
     public void show() {
         renderer = new ShapeRenderer();
+        assetManager=new AssetManager();
+        assetManager.setErrorListener( this);
+        assetManager.load(ATLAS,TextureAtlas.class);
+        assetManager.finishLoading();
+        TextureAtlas atlas=assetManager.get(ATLAS);
+        atlasRegion= atlas.findRegion(STANDING_RIGHT);
         batch = new SpriteBatch();
-        viewport = new FitViewport(Constant.DIFFICULTY_WORLD_SIZE, Constant.DIFFICULTY_WORLD_SIZE);
+        backgroundTexture = new TextureRegion(new Texture("background_edited.jpg") ,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
+        viewport = new ExtendViewport(Constant.DIFFICULTY_WORLD_SIZE, Constant.DIFFICULTY_WORLD_SIZE);
         Gdx.input.setInputProcessor(this);
 
         font = new BitmapFont();
@@ -47,23 +66,12 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     public void render(float delta) {
 
         viewport.apply();
-        Gdx.gl.glClearColor(244/255f, 227/255f, 203/255f,1f);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.setProjectionMatrix(viewport.getCamera().combined);
 
         renderer.begin(ShapeType.Filled);
 
-        renderer.setColor(247/255f, 205/255f, 145/255f,1);
-        renderer.circle(Constant.EASY_CENTER.x,Constant.EASY_CENTER.y,Constant.DIFFICULTY_BUBBLE_RADIUS);
-
-        renderer.setColor(244/255f, 186/255f,102/255f,1);
-        renderer.circle(Constant.MEDIUM_CENTER.x, Constant.MEDIUM_CENTER.y,Constant.DIFFICULTY_BUBBLE_RADIUS);
-
-        renderer.setColor(247/255f, 156/255f, 27/255f,1f);
-        renderer.circle(Constant.HARD_CENTER.x, Constant.HARD_CENTER.y,Constant.DIFFICULTY_BUBBLE_RADIUS);
-        renderer.setColor(247/255f, 185/255f, 123/255f,1);
-        renderer.ellipse(viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS,viewport.getWorldHeight()/2-20,150,70,20);
-        renderer.ellipse(viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS,viewport.getWorldHeight()/4,150,70,20);
 
         renderer.end();
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -71,15 +79,29 @@ public class DifficultyScreen extends InputAdapter implements Screen {
 
         // HINT: Use GlyphLayout to get vertical centering
         batch.begin();
-
+        batch.draw(backgroundTexture,0,0);
+        batch.draw(
+                atlasRegion.getTexture(),
+                viewport.getWorldWidth()/4,
+                viewport.getWorldHeight()/2+20,
+                0,
+                0,
+                atlasRegion.getRegionWidth(),
+                atlasRegion.getRegionHeight(),
+                1,
+                1,
+                0,
+                atlasRegion.getRegionX(),
+                atlasRegion.getRegionY(),
+                atlasRegion.getRegionWidth(),
+                atlasRegion.getRegionHeight(),
+                false,
+                false);
         font.draw(batch, Constant.EASY_LABEL, Constant.EASY_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.EASY_CENTER.y);
 
         font.draw(batch, Constant.MEDIUM_LABEL, Constant.MEDIUM_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.MEDIUM_CENTER.y);
 
         font.draw(batch, Constant.HARD_LABEL, Constant.HARD_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.HARD_CENTER.y);
-
-        font.draw(batch,"Settings",viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS+25,viewport.getWorldHeight()/2+25);
-        font.draw(batch,"Exit",Constant.MEDIUM_CENTER.x,viewport.getWorldHeight()/4+35);
         batch.end();
     }
     @Override
@@ -129,5 +151,8 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     }
 
 
-
+    @Override
+    public void error(AssetDescriptor asset, Throwable throwable) {
+        Gdx.app.error(TAG, "Couldn't load asset: " + asset.fileName, throwable);
+    }
 }
