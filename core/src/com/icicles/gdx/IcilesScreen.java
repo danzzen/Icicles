@@ -1,5 +1,7 @@
 package com.icicles.gdx;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -8,15 +10,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class IcilesScreen extends InputAdapter implements Screen{
-    //implementing screen so we will implement all the meethods
+public class IcilesScreen extends InputAdapter implements Screen {
     public static final String TAG = IcilesScreen.class.getName();
     private ExtendViewport iciclesViewport;
     private ShapeRenderer renderer;
@@ -26,36 +25,36 @@ public class IcilesScreen extends InputAdapter implements Screen{
     private SpriteBatch batch;
     private BitmapFont font;
     private IciclesGame game;
-    int topScore=0;
-    //Stage s;
+    int topScore = 0;
     private Preferences prefs;
     private ScreenViewport hudViewport;
     private gadgets gdts;
-    public IcilesScreen(IciclesGame game, Constant.Difficulty d){
+
+    public IcilesScreen(IciclesGame game, Constant.Difficulty d) {
         this.game = game;
-        this.difficulty =d;
+        this.difficulty = d;
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey(true);
     }
+
     @Override
     public void show() {
         iciclesViewport = new ExtendViewport(Constant.WORLD_SIZE, Constant.WORLD_SIZE);
         renderer = new ShapeRenderer();//inilize the shape renderer
         renderer.setAutoShapeType(true);
-        hudViewport=new ScreenViewport();
+        hudViewport = new ScreenViewport();
         player = new Player(iciclesViewport);//creating innstance of player class
-        icicles = new Icicles(difficulty,iciclesViewport);//creating innstance of Icicles class
-        gdts=new gadgets(difficulty,iciclesViewport);
-        batch=new SpriteBatch();
-        font=new BitmapFont();
-        Gdx.input.setInputProcessor(this);
-     prefs = Gdx.app.getPreferences("my-preferences");
-    if(prefs.getInteger("int")==0)
-    {
-        topScore=0;
-    }
-    else
-    {
-        topScore=prefs.getInteger("int");
-    }
+        icicles = new Icicles(difficulty, iciclesViewport);//creating innstance of Icicles class
+        gdts = new gadgets(difficulty, iciclesViewport);
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+
+        prefs = Gdx.app.getPreferences("my-preferences");
+        if (prefs.getInteger("int") == 0) {
+            topScore = 0;
+        } else {
+            topScore = prefs.getInteger("int");
+        }
 
 //        font.draw(batch,fps,10,iciclesViewport.getWorldHeight());
     }
@@ -63,7 +62,7 @@ public class IcilesScreen extends InputAdapter implements Screen{
     @Override
     public void resize(int width, int height) {
         iciclesViewport.update(width, height, true);//update viewport on resize
-        hudViewport.update(width,height,true);
+        hudViewport.update(width, height, true);
         player.init();
         icicles.init();
         gdts.init();
@@ -82,11 +81,9 @@ public class IcilesScreen extends InputAdapter implements Screen{
 
     @Override
     public void render(float delta) {
-        if(player.health<=0)
-        {
+        if (player.health <= 0) {
             resume();
-        }
-        else {
+        } else {
             icicles.update(delta);
             gdts.update(delta);
             player.update(delta);
@@ -113,7 +110,7 @@ public class IcilesScreen extends InputAdapter implements Screen{
             }
             //always
 
-            Gdx.gl.glClearColor(242/255f, 194/255f, 128/255f,1);
+            Gdx.gl.glClearColor(242 / 255f, 194 / 255f, 128 / 255f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             //  batch.setProjectionMatrix(iciclesViewport.getCamera().combined); //or your matrix to draw GAME WORLD, not UI
 
@@ -133,15 +130,14 @@ public class IcilesScreen extends InputAdapter implements Screen{
             iciclesViewport.apply(true);
             renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
             renderer.begin(ShapeRenderer.ShapeType.Filled);
-          //  renderer.circle();
-            renderer.setColor(239f, 187f, 115f,1f);
+            renderer.setColor(239f, 187f, 115f, 1f);
             icicles.render(renderer);
             gdts.render(renderer);
             player.render(renderer);
-            renderer.rectLine(iciclesViewport.getWorldWidth()/5-2,iciclesViewport.getWorldHeight()-0.3f,
-                    iciclesViewport.getWorldWidth()/5-2,iciclesViewport.getWorldHeight()-0.7f,0.1f);
-            renderer.rectLine(iciclesViewport.getWorldWidth()/5-1.8f,iciclesViewport.getWorldHeight()-0.3f,
-                    iciclesViewport.getWorldWidth()/5-1.8f,iciclesViewport.getWorldHeight()-0.7f,0.1f);
+            renderer.rectLine(iciclesViewport.getWorldWidth() / 5 - 2, iciclesViewport.getWorldHeight() - 0.3f,
+                    iciclesViewport.getWorldWidth() / 5 - 2, iciclesViewport.getWorldHeight() - 0.7f, 0.1f);
+            renderer.rectLine(iciclesViewport.getWorldWidth() / 5 - 1.8f, iciclesViewport.getWorldHeight() - 0.3f,
+                    iciclesViewport.getWorldWidth() / 5 - 1.8f, iciclesViewport.getWorldHeight() - 0.7f, 0.1f);
             renderer.end();
         }
 
@@ -149,23 +145,29 @@ public class IcilesScreen extends InputAdapter implements Screen{
 
     @Override
     public void resume() {
-    game.showResumeScreen(icicles.count,topScore,difficulty);
+        game.showResumeScreen(icicles.count, topScore, difficulty);
     }
 
     @Override
     public void hide() {
-
     }
 
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector2 WorldTouch=iciclesViewport.unproject(new Vector2(screenX,screenY));
-        Vector2 resumeButtonTouch=new Vector2(iciclesViewport.getWorldWidth()/5-1.9f,iciclesViewport.getWorldHeight()-0.5f);
-        if(WorldTouch.dst(resumeButtonTouch)<0.2)
-        {
+        Vector2 WorldTouch = iciclesViewport.unproject(new Vector2(screenX, screenY));
+        Vector2 resumeButtonTouch = new Vector2(iciclesViewport.getWorldWidth() / 5 - 1.9f, iciclesViewport.getWorldHeight() - 0.5f);
+        if (WorldTouch.dst(resumeButtonTouch) < 1f) {
             resume();
         }
         return true;
+    }
+    @Override
+    public boolean keyDown(int keycode) {
+        if(keycode== Input.Keys.BACK)
+        {
+            game.showResumeScreen(icicles.count, topScore, difficulty);
+        }
+        return false;
     }
 }

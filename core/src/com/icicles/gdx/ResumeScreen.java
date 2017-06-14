@@ -1,15 +1,20 @@
 package com.icicles.gdx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -23,6 +28,11 @@ public class ResumeScreen extends InputAdapter implements Screen {
     private Icicles icicles;
     private int score, topscore;
     private ScreenViewport hudViewport;
+    Stage stage;
+    TextButton button;
+    TextButton.TextButtonStyle textButtonStyle;
+    Skin skin;
+    TextureAtlas buttonAtlas;
 
     public ResumeScreen(int count, int topscore,IciclesGame gm,Constant.Difficulty di) {
         this.score = count;
@@ -40,13 +50,24 @@ public class ResumeScreen extends InputAdapter implements Screen {
         font = new BitmapFont();
         hudViewport = new ScreenViewport();
         Gdx.input.setInputProcessor(this);
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        skin = new Skin();
+        buttonAtlas = new TextureAtlas(Gdx.files.internal("button.pack"));
+        skin.addRegions(buttonAtlas);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        textButtonStyle.up = skin.getDrawable("ic_launcher.png");
+        button = new TextButton("Button1", textButtonStyle);
+        stage.addActor(button);
+
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(242 / 255f, 194 / 255f, 128 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        stage.draw();
 
         //  pasViewport.apply();
 
@@ -56,13 +77,25 @@ public class ResumeScreen extends InputAdapter implements Screen {
         hudViewport.apply();
         // font.getData().setScale(3,4);
         font.setColor(Color.BLACK);
-        font.getData().setScale(3);
-        if(topscore>=0)
+
+
+       // Did you try setScale() method that what i use to resize my font
+
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+       font.getData().setScale(3);
+
+        if(topscore<score)
         {
             font.draw(batch,"New High\n",hudViewport.getWorldWidth()/2-40,hudViewport.getWorldHeight()/2+80f);
+            font.draw(batch, "Score: "+score,
+                    hudViewport.getWorldWidth()/2-30,hudViewport.getWorldHeight()/2+10);
         }
-        font.draw(batch, "Score: "+score,
-                hudViewport.getWorldWidth()/2-30,hudViewport.getWorldHeight()/2+10);
+        else{
+            font.draw(batch,"Best : ",hudViewport.getWorldWidth()/2-40,hudViewport.getWorldHeight()/2+80f);
+            font.draw(batch, "Score: "+score,
+                    hudViewport.getWorldWidth()/2-30,hudViewport.getWorldHeight()/2+10);
+        }
+
         font.setColor(Color.BLACK);
         batch.end();
         pasViewport.apply();
@@ -146,5 +179,6 @@ public class ResumeScreen extends InputAdapter implements Screen {
         }
         return true;
     }
+
 
 }

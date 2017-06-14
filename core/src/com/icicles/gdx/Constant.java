@@ -31,9 +31,9 @@ public class Constant {
     public static final float DIFFICULTY_WORLD_SIZE = 480.0f;
     public static final float DIFFICULTY_BUBBLE_RADIUS = DIFFICULTY_WORLD_SIZE / 9;
     public static final float DIFFICULTY_LABEL_SCALE = 1.5f;
-    public static final Vector2 EASY_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE / 2, DIFFICULTY_WORLD_SIZE*3/4);
-    public static final Vector2 MEDIUM_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE / 2, DIFFICULTY_WORLD_SIZE / 2);
-    public static final Vector2 HARD_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE /2, DIFFICULTY_WORLD_SIZE *1/4);
+    public static final Vector2 EASY_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE / 4, DIFFICULTY_WORLD_SIZE*3/4);
+    public static final Vector2 MEDIUM_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE / 2, DIFFICULTY_WORLD_SIZE *3/4);
+    public static final Vector2 HARD_CENTER = new Vector2(DIFFICULTY_WORLD_SIZE *3/4, DIFFICULTY_WORLD_SIZE *3/4);
 
     public enum Difficulty{
         EASY(EASY_SPAWNS_PER_SECOND, EASY_LABEL),

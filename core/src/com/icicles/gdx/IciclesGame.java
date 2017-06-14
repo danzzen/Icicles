@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class IciclesGame extends Game {
-	SpriteBatch batch;
-	Texture img;
     @Override
 	public void create() {
 		showDifficultyScreen();

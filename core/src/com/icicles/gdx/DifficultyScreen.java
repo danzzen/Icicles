@@ -1,5 +1,6 @@
 package com.icicles.gdx;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -53,13 +54,16 @@ public class DifficultyScreen extends InputAdapter implements Screen {
         renderer.begin(ShapeType.Filled);
 
         renderer.setColor(247/255f, 205/255f, 145/255f,1);
-        renderer.rect(Constant.EASY_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS,Constant.EASY_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2*Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
+        renderer.circle(Constant.EASY_CENTER.x,Constant.EASY_CENTER.y,Constant.DIFFICULTY_BUBBLE_RADIUS);
 
         renderer.setColor(244/255f, 186/255f,102/255f,1);
-        renderer.rect(Constant.MEDIUM_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS, Constant.MEDIUM_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2* Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
+        renderer.circle(Constant.MEDIUM_CENTER.x, Constant.MEDIUM_CENTER.y,Constant.DIFFICULTY_BUBBLE_RADIUS);
 
         renderer.setColor(247/255f, 156/255f, 27/255f,1f);
-        renderer.rect(Constant.HARD_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS, Constant.HARD_CENTER.y-Constant.DIFFICULTY_BUBBLE_RADIUS,2*Constant.DIFFICULTY_BUBBLE_RADIUS,50.0f);
+        renderer.circle(Constant.HARD_CENTER.x, Constant.HARD_CENTER.y,Constant.DIFFICULTY_BUBBLE_RADIUS);
+        renderer.setColor(247/255f, 185/255f, 123/255f,1);
+        renderer.ellipse(viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS,viewport.getWorldHeight()/2-20,150,70,20);
+        renderer.ellipse(viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS,viewport.getWorldHeight()/4,150,70,20);
 
         renderer.end();
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -68,15 +72,14 @@ public class DifficultyScreen extends InputAdapter implements Screen {
         // HINT: Use GlyphLayout to get vertical centering
         batch.begin();
 
-        final GlyphLayout easyLayout = new GlyphLayout(font, Constant.EASY_LABEL);
-        font.draw(batch, Constant.EASY_LABEL, Constant.EASY_CENTER.x, Constant.EASY_CENTER.y-20, 0, Align.center, false);
+        font.draw(batch, Constant.EASY_LABEL, Constant.EASY_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.EASY_CENTER.y);
 
-        final GlyphLayout mediumLayout = new GlyphLayout(font, Constant.MEDIUM_LABEL);
-        font.draw(batch, Constant.MEDIUM_LABEL, Constant.MEDIUM_CENTER.x, Constant.MEDIUM_CENTER.y-20, 0, Align.center, false);
+        font.draw(batch, Constant.MEDIUM_LABEL, Constant.MEDIUM_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.MEDIUM_CENTER.y);
 
-        final GlyphLayout hardLayout = new GlyphLayout(font, Constant.HARD_LABEL);
-        font.draw(batch, Constant.HARD_LABEL, Constant.HARD_CENTER.x, Constant.HARD_CENTER.y-20, 0, Align.center, false);
+        font.draw(batch, Constant.HARD_LABEL, Constant.HARD_CENTER.x-Constant.DIFFICULTY_BUBBLE_RADIUS/2, Constant.HARD_CENTER.y);
 
+        font.draw(batch,"Settings",viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS+25,viewport.getWorldHeight()/2+25);
+        font.draw(batch,"Exit",Constant.MEDIUM_CENTER.x,viewport.getWorldHeight()/4+35);
         batch.end();
     }
     @Override
@@ -108,18 +111,23 @@ public class DifficultyScreen extends InputAdapter implements Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
+        Vector2 exit=new Vector2(viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS+75,viewport.getWorldHeight()/4+35);
         if (worldTouch.dst(Constant.EASY_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.EASY);
-           Gdx.input.setInputProcessor(null);
         }
         if (worldTouch.dst(Constant.MEDIUM_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.MEDIUM);
-            Gdx.input.setInputProcessor(null);
         }
         if (worldTouch.dst(Constant.HARD_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.HARD);
-            Gdx.input.setInputProcessor(null);
+        }
+        if(worldTouch.dst(exit)<70)
+        {
+           Gdx.app.exit();
         }
         return true;
     }
+
+
+
 }
