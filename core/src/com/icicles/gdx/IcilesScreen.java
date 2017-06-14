@@ -146,7 +146,8 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
     @Override
     public void render(float delta) {
         if (player.health <= 0) {
-
+            Gdx.gl.glClearColor(242 / 255f, 194 / 255f, 128 / 255f, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             stage.act();
             batch.begin();
             batch.draw(backgroundTexture,0,0);
@@ -220,17 +221,13 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 WorldTouch = iciclesViewport.unproject(new Vector2(screenX, screenY));
-        Vector2 resumeButtonTouch = new Vector2(iciclesViewport.getWorldWidth() / 5 - 1.9f, iciclesViewport.getWorldHeight() - 0.5f);
-        if (WorldTouch.dst(resumeButtonTouch) < 1f) {
-            resume();
-        }
         return true;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.BACK) {
-            game.showResumeScreen(icicles.count, topScore, difficulty);
+
         }
         return false;
     }

@@ -197,9 +197,11 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
         Vector2 exit=new Vector2(viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS+75,viewport.getWorldHeight()/4+35);
         if (worldTouch.dst(Constant.EASY_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.EASY);
+            Gdx.input.setInputProcessor(null);
         }
         if (worldTouch.dst(Constant.MEDIUM_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.MEDIUM);
+            Gdx.input.setInputProcessor(null);
         }
         if (worldTouch.dst(Constant.HARD_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
             game.showIciclesScreen(Constant.Difficulty.HARD);
