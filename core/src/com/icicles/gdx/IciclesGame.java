@@ -23,8 +23,5 @@ public class IciclesGame extends Game {
 	{
 		setScreen(new IcilesScreen(this,di));
 	}
-	public void showResumeScreen(int x ,int y,Constant.Difficulty di){
-
-		setScreen(new ResumeScreen(x,y,this,di));
-	}
 }
+

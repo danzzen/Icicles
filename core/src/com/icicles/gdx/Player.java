@@ -11,7 +11,7 @@ import static java.lang.Math.abs;
 
 public class Player {
     //we create vector to store x and y coordinates of objects
-    Vector2 position;
+    private  Vector2 position;
     //some constants
     public int death=0,health=2;
     Icicles icicles;
@@ -87,10 +87,10 @@ public class Player {
         boolean sh=false;
         for(Icicle icicle:icicles.list){
 
-            if(abs(icicle.position.y-positionSheild.y)<=0.1&&abs(icicle.position.x-positionSheild.x)<2*Constant.PLAYER_HEAD_RADIUS&&isRed) {
+            if(abs(icicle.position.y-positionSheild.y)<=0.1&&abs(icicle.position.x-positionSheild.x)<3f*Constant.PLAYER_HEAD_RADIUS&&isRed) {
                 sh = true;
-                icicle.position.x=0;
-                icicle.position.y=0;
+                icicle.position.x=-10;
+                icicle.position.y=-10;
             }
         }
         return sh;
@@ -108,14 +108,14 @@ public class Player {
         return isGd;
     }
     public void render(ShapeRenderer renderer){
-        renderer.setColor(Color.BLACK);
-        positionSheild=new Vector2(position.x-Constant.PLAYER_HEAD_RADIUS,position.y+Constant.PLAYER_HEAD_RADIUS);
+        renderer.setColor(191/255f, 244/255f, 66/255f,1);
+        positionSheild=new Vector2(position.x-Constant.PLAYER_HEAD_RADIUS,position.y+Constant.PLAYER_HEAD_RADIUS+0.2f);
         if(isRed==true)
         {
-            renderer.rectLine(positionSheild.x,positionSheild.y,positionSheild.x+2*Constant.PLAYER_HEAD_RADIUS,positionSheild.y,Constant.PLAYER_LIMB_WIDTH);
+            renderer.rectLine(positionSheild.x-0.5f,positionSheild.y,positionSheild.x+2*Constant.PLAYER_HEAD_RADIUS+0.5f,positionSheild.y,Constant.PLAYER_LIMB_WIDTH*3/2);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.circle(position.x,position.y,Constant.PLAYER_HEAD_RADIUS);
+        renderer.circle(position.x,position.y,Constant.PLAYER_HEAD_RADIUS,20);
         Vector2 BarTop=new Vector2(position.x,position.y-Constant.PLAYER_HEAD_RADIUS);
         Vector2 BarBottom=new Vector2(position.x,BarTop.y-2*Constant.PLAYER_HEAD_RADIUS);
         renderer.rectLine(BarTop.x,BarTop.y,BarBottom.x,BarBottom.y,Constant.PLAYER_LIMB_WIDTH);

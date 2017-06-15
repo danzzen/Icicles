@@ -28,6 +28,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
+import de.tomgrill.gdxdialogs.core.GDXDialogs;
+import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
+import de.tomgrill.gdxdialogs.core.dialogs.GDXButtonDialog;
+import de.tomgrill.gdxdialogs.core.listener.ButtonClickListener;
 
 
 public class DifficultyScreen  extends InputAdapter implements Screen,AssetErrorListener {
@@ -48,22 +52,24 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
     }
     TextureRegion backgroundTexture;
     Stage stage;
-    TextButton button,button2,button3;
+    TextButton button,button2,button3,button4,button5;
     TextButton.TextButtonStyle textButtonStyle;
     Skin skin;
     TextureAtlas buttonAtlas;
     AssetManager assetManager;
     TextureAtlas.AtlasRegion atlasRegion;
+    GDXDialogs dialogs;
 
     @Override
 
     public void show() {
         renderer = new ShapeRenderer();
+         dialogs = GDXDialogsSystem.install();
         font=new BitmapFont();
         batch = new SpriteBatch();
-        backgroundTexture = new TextureRegion(new Texture("background_edited.jpg") ,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        backgroundTexture = new TextureRegion(new Texture("background.png") ,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         viewport = new ExtendViewport(Constant.DIFFICULTY_WORLD_SIZE, Constant.DIFFICULTY_WORLD_SIZE);
-       Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(this);
         assetManager=new AssetManager();
         assetManager.setErrorListener( this);
         assetManager.load(ATLAS,TextureAtlas.class);
@@ -73,7 +79,9 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
         TextureAtlas atlas=assetManager.get(ATLAS);
         atlasRegion= atlas.findRegion(STANDING_RIGHT);
         skin = new Skin();
+
         stage=new Stage();
+        Gdx.input.setInputProcessor(stage);
         skin.addRegions(atlas);
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
@@ -146,6 +154,67 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
         moveAction3.setDuration(.2f);
         button3.addAction(moveAction3);
         stage.addActor(button3);
+        button4= new TextButton("Quit", textButtonStyle);
+        button4.setHeight(Gdx.graphics.getHeight()/8); //** Button Height **//
+        button4.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
+        button4.setPosition(0,Gdx.graphics.getHeight()/2);
+        button4.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+                dispose();
+            }});
+
+
+
+        MoveToAction moveAction4= new MoveToAction();//Add dynamic movement effects to button
+        moveAction4.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        moveAction4.setDuration(.5f);
+        button4.addAction(moveAction4);
+        stage.addActor(button4);
+        button5=new TextButton("About",textButtonStyle);
+        button5.setHeight(Gdx.graphics.getWidth()/8);
+        button5.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
+        button5.setPosition(0,Gdx.graphics.getHeight()*2/3);
+        button5.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                GDXButtonDialog bDialog = dialogs.newDialog(GDXButtonDialog.class);
+                bDialog.setTitle("About");
+                bDialog.setMessage("How to play\n" +
+                        "1.you have to avoid the falling icicles(white color)\n"+
+                        "2.You can increase life by collecting green balls\n" +
+                        "3.You can clear all icicles using black ball\n" +
+                        "4.Orange Ball will provide a Shield ");
+
+                bDialog.setClickListener(new ButtonClickListener() {
+
+                    @Override
+                    public void click(int button) {
+                        // handle button click here
+                    }
+                });
+
+                bDialog.addButton("Got it");
+                bDialog.build().show();
+                dispose();
+            }});
+
+
+
+        MoveToAction moveAction5= new MoveToAction();//Add dynamic movement effects to button
+        moveAction5.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/4);
+        moveAction5.setDuration(.5f);
+        button5.addAction(moveAction5);
+        stage.addActor(button5);
     }
 
     @Override
@@ -189,31 +258,7 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
     @Override
     public void dispose() {
 
-    }
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
-        Vector2 exit=new Vector2(viewport.getWorldWidth()/2-(3/2)*Constant.DIFFICULTY_BUBBLE_RADIUS+75,viewport.getWorldHeight()/4+35);
-        if (worldTouch.dst(Constant.EASY_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
-            game.showIciclesScreen(Constant.Difficulty.EASY);
-            Gdx.input.setInputProcessor(null);
-        }
-        if (worldTouch.dst(Constant.MEDIUM_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
-            game.showIciclesScreen(Constant.Difficulty.MEDIUM);
-            Gdx.input.setInputProcessor(null);
-        }
-        if (worldTouch.dst(Constant.HARD_CENTER) < Constant.DIFFICULTY_BUBBLE_RADIUS) {
-            game.showIciclesScreen(Constant.Difficulty.HARD);
-        }
-        if(worldTouch.dst(exit)<70)
-        {
-           Gdx.app.exit();
-        }
-        return true;
-    }
-
-
+   }
     @Override
     public void error(AssetDescriptor asset, Throwable throwable) {
         Gdx.app.error(TAG, "Couldn't load asset: " + asset.fileName, throwable);

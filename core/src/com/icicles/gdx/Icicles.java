@@ -10,7 +10,7 @@ public class Icicles {
 
     Viewport viewport;
     Constant.Difficulty difficulty;
-    public int count=0,c=0;
+    int count=0,c=0;
     public Icicles(){
 
     }
