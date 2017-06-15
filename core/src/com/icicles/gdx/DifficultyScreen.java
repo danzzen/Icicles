@@ -154,7 +154,7 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
         moveAction3.setDuration(.2f);
         button3.addAction(moveAction3);
         stage.addActor(button3);
-        button4= new TextButton("Quit", textButtonStyle);
+        button4= new TextButton("About", textButtonStyle);
         button4.setHeight(Gdx.graphics.getHeight()/8); //** Button Height **//
         button4.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
         button4.setPosition(0,Gdx.graphics.getHeight()/2);
@@ -165,34 +165,13 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.exit();
-                dispose();
-            }});
 
-
-
-        MoveToAction moveAction4= new MoveToAction();//Add dynamic movement effects to button
-        moveAction4.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        moveAction4.setDuration(.5f);
-        button4.addAction(moveAction4);
-        stage.addActor(button4);
-        button5=new TextButton("About",textButtonStyle);
-        button5.setHeight(Gdx.graphics.getWidth()/8);
-        button5.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
-        button5.setPosition(0,Gdx.graphics.getHeight()*2/3);
-        button5.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
-                return true;
-            }
-
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 GDXButtonDialog bDialog = dialogs.newDialog(GDXButtonDialog.class);
                 bDialog.setTitle("About");
                 bDialog.setMessage("How to play\n" +
-                        "1.you have to avoid the falling icicles(white color)\n"+
+                        "1.you have to avoid the falling white color icicles(Give damage only when front point directly touch the head)\n"+
                         "2.You can increase life by collecting green balls\n" +
-                        "3.You can clear all icicles using black ball\n" +
+                        "3.You can clear all icicles using Blue ball\n" +
                         "4.Orange Ball will provide a Shield ");
 
                 bDialog.setClickListener(new ButtonClickListener() {
@@ -205,6 +184,29 @@ public class DifficultyScreen  extends InputAdapter implements Screen,AssetError
 
                 bDialog.addButton("Got it");
                 bDialog.build().show();
+
+                dispose();
+            }});
+
+
+
+        MoveToAction moveAction4= new MoveToAction();//Add dynamic movement effects to button
+        moveAction4.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        moveAction4.setDuration(.5f);
+        button4.addAction(moveAction4);
+        stage.addActor(button4);
+        button5=new TextButton("Quit",textButtonStyle);
+        button5.setHeight(Gdx.graphics.getWidth()/8);
+        button5.setWidth(Gdx.graphics.getWidth()/6); //** Button Width **//
+        button5.setPosition(0,Gdx.graphics.getHeight()*2/3);
+        button5.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
                 dispose();
             }});
 

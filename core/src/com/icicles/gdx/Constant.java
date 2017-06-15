@@ -48,9 +48,9 @@ public class Constant {
         }
     }
     public static final Vector2 GADGETS_ACCELERATION=new Vector2(0,-2.0f);
-    public static final Color GADGETTYPE_1=Color.DARK_GRAY;
-    public static final Color GADGETTYPE_2=Color.CORAL;
-    public static final Color GADGETTYPE_3=Color.FOREST;
+    public static final Color GADGETTYPE_1=new Color(56/255f, 29/255f, 193/255f,1);
+    public static final Color GADGETTYPE_2=new Color(237/255f, 110/255f, 14/255f,1);
+    public static final Color GADGETTYPE_3=new Color(179/255f, 239/255f, 83/255f,1);
     public static final float GADAGETTYPE_1_RADIUS=0.25f;
 
 }

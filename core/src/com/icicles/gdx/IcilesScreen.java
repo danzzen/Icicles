@@ -62,6 +62,7 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
 
     @Override
     public void show() {
+
         iciclesViewport = new ExtendViewport(Constant.WORLD_SIZE, Constant.WORLD_SIZE);
         renderer = new ShapeRenderer();//inilize the shape renderer
         renderer.setAutoShapeType(true);
@@ -196,22 +197,7 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
     @Override
     public void render(float delta) {
         if (player.health <= 0) {
-            icicles.update(delta);
-            gdts.update(delta);
-            TextButton labelActor = (TextButton) stage.getRoot().findActor("your");
-            labelActor.setText("Your Score : "+prefs.getInteger("score"));
-
-            iciclesViewport.apply(true);
-            renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
-            renderer.begin(ShapeRenderer.ShapeType.Filled);
-            batch.begin();
-            batch.draw(backgroundTexture,0,0);
-            TextButton hg = (TextButton) stage.getRoot().findActor("top");
-            hg.setText("High Score : "+topScore);
-            batch.end();
-            stage.act();
-            stage.draw();
-            renderer.end();
+            resume();
         } else {
             icicles.update(delta);
             gdts.update(delta);
@@ -266,6 +252,7 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
             gdts.render(renderer);
             player.render(renderer);
             renderer.end();
+
         }
 
     }
@@ -273,27 +260,31 @@ public class IcilesScreen extends InputAdapter implements Screen, AssetErrorList
     @Override
     public void resume() {
 
+//        icicles.update(delta);
+//        gdts.update(delta);
+        TextButton labelActor = (TextButton) stage.getRoot().findActor("your");
+        labelActor.setText("Your Score : "+prefs.getInteger("score"));
 
+        iciclesViewport.apply(true);
+        renderer.setProjectionMatrix(iciclesViewport.getCamera().combined);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        batch.begin();
+        batch.draw(backgroundTexture,0,0);
+        TextButton hg = (TextButton) stage.getRoot().findActor("top");
+        hg.setText("High Score : "+topScore);
+        batch.end();
+        stage.act();
+        stage.draw();
+        renderer.end();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+           resume();
+        }
     }
 
     @Override
     public void hide() {
     }
 
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector2 WorldTouch = iciclesViewport.unproject(new Vector2(screenX, screenY));
-        return true;
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.BACK) {
-
-        }
-        return false;
-    }
 
     @Override
     public void error(AssetDescriptor asset, Throwable throwable) {
